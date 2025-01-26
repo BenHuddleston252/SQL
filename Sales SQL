@@ -1,11 +1,14 @@
--- How many orders did we get in Janurary?
+#In this SQL, I'm querying a database with multiple tables to quantify customer and order data statistics.
+
+
+-- How many orders did we get in January?
 SELECT COUNT(distinct orderID)
 FROM JanSales
 WHERE length(orderID)=6
 AND orderID<>'Order ID';
 
 
--- How many of those Janurary orders were for an Iphone?
+-- How many of those January orders were for an Iphone?
 SELECT COUNT(distinct orderID) iphone
 FROM JanSales
 WHERE Product='iPhone'
