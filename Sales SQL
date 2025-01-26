@@ -48,6 +48,14 @@ SELECT COUNT(distinct acctnum) customer
 FROM FebSales
 LEFT JOIN customers
 ON febsales.orderID=customers.order_id
+
+-- List all the products sold in Los Angeles in February, and include how many of each sold.
+SELECT product
+,SUM(Quantity)
+,location
+FROM Febsales
+WHERE location like '%Los Angeles%'
+GROUP BY product;
 WHERE quantity>'2'
 AND length(orderID)=6
 AND orderID<>'Order ID';
