@@ -49,7 +49,7 @@ FROM FebSales
 LEFT JOIN customers
 ON febsales.orderID=customers.order_id
 
--- List all the products sold in Los Angeles in February, and include how many of each sold.
+-- List all the products sold in Los Angeles in February, and include how many sold each.
 SELECT product
 ,SUM(Quantity)
 ,location
@@ -65,3 +65,33 @@ AND length(orderID)=6
 AND orderID<>'Order ID'
 GROUP BY location
 HAVING COUNT(orderID)>=3;
+
+-- How many of each type of headphones were sold in February?
+SELECT distinct product, SUM(quantity) AS quantity
+FROM febsales
+WHERE product like '%headphone%'
+GROUP BY product;
+
+-- What was the average amount spent per account in February?
+SELECT ROUND(SUM(quantity*price)/COUNT(acctnum)) AS average_spent
+FROM febsales
+JOIN customers
+ON febsales.orderID=customers.order_id
+WHERE order_id<>'Order ID'
+AND length(order_id)=6;
+
+-- What was the average quantity of products purchased per account in February? (Hint: just like question 3, we want the overall average, not the average for each account individually).
+SELECT SUM(quantity)/COUNT(acctnum) AS avg_products
+FROM febsales
+JOIN customers
+ON febsales.orderID=customers.order_id
+WHERE orderid<>'Order ID'
+AND length(orderID)=6;
+
+-- Which product brought in the most revenue in January and how much revenue did it bring in total?
+SELECT product, SUM(quantity*price) AS revenue
+FROM jansales
+GROUP BY product
+ORDER BY revenue DESC
+LIMIT 1;
+
