@@ -54,12 +54,14 @@ VALUES
 Query SQL # Analysis: 
 
 --The average number of days of maternity leave for the tech industry.
-SELECT ROUND(AVG(maternity_leave_weeks)*7,1) AS "Maternity_Leave_Days"
+SELECT 
+ROUND(AVG(maternity_leave_weeks)*7,1) AS "Maternity_Leave_Days"
 FROM fortune_companies
 WHERE industry='Technology';
 ​
 --Case statement to find the number of companies with a small amount or a large amounts of employees
-SELECT COUNT(*) AS company_size,
+SELECT 
+COUNT(*) AS company_size,
 CASE 
 WHEN employees>72000 THEN 'Large'
 ELSE 'Small'
@@ -68,20 +70,25 @@ FROM fortune_companies
 GROUP BY employee_size;
 ​
 --What is the total revenue of the tech industry?
-SELECT SUM(revenue) AS total_revenue
+SELECT 
+SUM(revenue) AS total_revenue
 FROM fortune_companies
 WHERE industry='Technology';
 ​
 ​
 --What energy companies have over 2,000 employees?
-SELECT company_name, industry, employees
+SELECT 
+company_name, 
+industry, 
+employees
 FROM fortune_companies
 WHERE employees>2000
 AND industry ='Energy'
 ORDER BY employees DESC;
 ​
 --Give me a list of companies with $10 billion or more in revenue.
-SELECT company_name, SUM(revenue) AS total_revenue
+SELECT company_name, 
+SUM(revenue) AS total_revenue
 FROM fortune_companies
 GROUP BY company_name
 HAVING SUM(revenue)>=10;
