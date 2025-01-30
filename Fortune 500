@@ -53,35 +53,35 @@ VALUES
 
 Query SQL # Analysis: 
 
-#The average number of days of maternity leave for the tech industry.
-
-SELECT ROUND(AVG(maternity_leave_weeks),1) AS "Maternity_Leave"
+--The average number of days of maternity leave for the tech industry.
+SELECT ROUND(AVG(maternity_leave_weeks)*7,1) AS "Maternity_Leave_Days"
 FROM fortune_companies
 WHERE industry='Technology';
 ​
-#Case statement to find the number of companies with a small amount or a large amounts of employees
-SELECT COUNT(*),
-CASE WHEN employees>=72000 THEN "Large"
-WHEN employees<=72000 THEN "Small"
-END AS "employee_size"
+--Case statement to find the number of companies with a small amount or a large amounts of employees
+SELECT COUNT(*) AS company_size,
+CASE 
+WHEN employees>72000 THEN 'Large'
+ELSE 'Small'
+END AS employee_size
 FROM fortune_companies
 GROUP BY employee_size;
 ​
-#What is the total revenue of the tech industry?
-SELECT industry, SUM(revenue) AS "Total_Revenue"
+--What is the total revenue of the tech industry?
+SELECT SUM(revenue) AS total_revenue
 FROM fortune_companies
-WHERE industry="Technology"
-GROUP BY industry;
+WHERE industry='Technology';
 ​
 ​
-#What energy companies have over 2,000 employees?
+--What energy companies have over 2,000 employees?
 SELECT company_name, industry, employees
 FROM fortune_companies
-WHERE employees>=2000
+WHERE employees>2000
 AND industry ='Energy'
 ORDER BY employees DESC;
 ​
-#What is the number of companies with a $10,000,000,000 or more revenue?
-SELECT COUNT(revenue) AS "number of companies over $10b"
+--Give me a list of companies with $10 billion or more in revenue.
+SELECT company_name, SUM(revenue) AS total_revenue
 FROM fortune_companies
-HAVING COUNT(revenue)>=10;
+GROUP BY company_name
+HAVING SUM(revenue)>=10;
