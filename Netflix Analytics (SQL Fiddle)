@@ -59,29 +59,45 @@ VALUES
 
     # The following SQL was written to answer specific questions about the content on Netflix:
 
-  #How many movie titles are in the database?
-SELECT COUNT(*) movies 
-FROM "netflix_titles_info"
-WHERE "type"='Movie';
+ -- Here is an example of a left-join query that finds the director for each movie and tv show
+SELECT 
+n.title,
+n.type,
+p.director
+FROM netflix_titles_info n
+LEFT JOIN netflix_people p
+ON n.show_id = p.show_id
+WHERE p.director IS NOT NULL
+ORDER BY n.title;
 
-  #When was the most recent batch of TV shows and/or movies added to the database?
-SELECT MAX(date(date_added))
-FROM "netflix_titles_info";
- #List all the movies and TV shows in alphabetical order.
-SELECT title
-FROM "netflix_titles_info"
+--How many movie titles are in the database?
+SELECT 
+COUNT(*) AS movies 
+FROM netflix_titles_info
+WHERE type = 'Movie';
+
+  --When was the most recent batch of TV shows and/or movies added to the database?
+SELECT 
+MAX(date_added) AS most_recent
+FROM netflix_titles_info;
+
+ --List all the movies and TV shows in alphabetical order.
+SELECT
+title
+FROM netflix_titles_info
 ORDER BY title;
 
- #Who was the Director for the movie The Starling?x
-SELECT director
-FROM "netflix_titles_info" netf
-LEFT JOIN "netflix_people" net
-ON net.show_id=netf.show_id
-WHERE netf.title='The Starling';
+ --Who was the director of the movie "The Starling"?
+SELECT
+director
+FROM netflix_titles_info 
+WHERE title = 'The Starling';
 
- #What is the oldest movie in the database and what year was it made?
-SELECT title, release_year
-FROM "netflix_titles_info"
-WHERE type='Movie'
-ORDER BY release_year 
+ --What is the oldest movie in the database and what year was it made?
+SELECT 
+title, 
+release_year
+FROM netflix_titles_info
+WHERE type = 'Movie'
+ORDER BY release_year ASC
 LIMIT 1;
