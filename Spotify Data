@@ -29,27 +29,36 @@ time_signature integer NOT NULL )
 #Next, I explored the data using the following SQL. 
 
 -- How many tracks has the Weeknd made?
-SELECT artist_name, 
-COUNT(track_name) tracks
+SELECT 
+artist_name, 
+COUNT(DISTINCT track_name) AS number_of_tracks
 FROM spotifydata
 WHERE artist_name = 'The Weeknd';
 
--- what artist are super popular, popular, and not very popular?
-SELECT artist_name, SUM(popularity),
-CASE WHEN SUM(popularity) BETWEEN 138 AND 369 THEN 'Very Popular'
+-- What artists are super popular, popular, and least popular?
+SELECT 
+artist_name, 
+SUM(popularity) AS total_popularity,
+CASE 
+WHEN SUM(popularity) BETWEEN 138 AND 369 THEN 'Very Popular'
 WHEN SUM(popularity) BETWEEN 86 AND 95 THEN 'Popular'
-WHEN SUM(popularity) BETWEEN 69 AND 82 THEN 'Not Very Popular'
-END AS popular
+WHEN SUM(popularity) BETWEEN 69 AND 82 THEN 'Least Popular'
+END AS PopularLabel
 FROM spotifydata
 GROUP BY artist_name
-ORDER BY SUM(popularity) DESC;
+ORDER BY total_popularity DESC;
 
--- what track has the highest tempo?
-SELECT MAX(tempo)
-FROM spotifydata;
-
--- List all spotify tracks from loudest to quietest?
-SELECT track_name, loudness
+-- What track has the highest tempo?
+SELECT 
+track_name,
+tempo
 FROM spotifydata
-GROUP BY track_name
-ORDER BY loudness;
+ORDER BY tempo DESC
+LIMIT 1;
+
+-- List all Spotify tracks from loudest to quietest.
+SELECT 
+track_name, 
+loudness
+FROM spotifydata
+ORDER BY loudness ASC, track_name;
