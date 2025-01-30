@@ -31,25 +31,32 @@ VALUES
 
 #For this project, I used SQL to query the Superstore database to get information about items sold at the store and their prices. 
 
-#Sort Items By Price In Ascending Order
-SELECT item_name, price
+--Sort Items By Price In Ascending Order
+SELECT 
+item_name, 
+price
 FROM superstore
 ORDER BY price;
 ​
-#Cheapest Item
-
-SELECT item_name, MIN(price)
+--Cheapest Item
+SELECT 
+item_name, 
+price
 FROM superstore
-ORDER BY item_name;
+ORDER BY price ASC
+LIMIT 1;
 ​
 
-#Average Price of Kitchen Supplies
-SELECT AVG(price)
+--Average Price of Kitchen Supplies
+SELECT 
+AVG(price) AS avg_kitchen_supplies
 FROM superstore
-GROUP BY 'Kitchen_Supplies';
+WHERE category = 'Kitchen_Supplies';
 
 
-#Which Items Have the Highest Stock Quantity From Highest to Lowest?
-SELECT item_name, stock_quantity
+--Which Items Have the Highest Stock Quantity From Highest to Lowest?
+SELECT 
+item_name, 
+stock_quantity
 FROM superstore
 ORDER BY stock_quantity DESC;
