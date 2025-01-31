@@ -1,0 +1,104 @@
+--Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
+SELECT 
+FirstName,
+LastName,
+CustomerId,
+Country
+FROM customers
+WHERE Country <> 'United States';
+
+-- Show only the Customers from Brazil.
+SELECT 
+FirstName,
+LastName,
+CustomerId,
+Country
+FROM customers
+WHERE Country = 'Brazil';
+
+-- Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+SELECT 
+cus.FirstName, 
+cus.LastName, 
+inv.InvoiceId, 
+inv.InvoiceDate, 
+inv.BillingCountry
+FROM invoices inv
+JOIN customers cus
+ON inv.CustomerId = cus.CustomerId
+WHERE BillingCountry = 'Brazil';
+
+-- Show the Employees who are Sales Agents.
+SELECT 
+FirstName,
+LastName,
+Title
+FROM employees
+WHERE Title = 'Sales Support Agent';
+
+-- Find a unique/distinct list of billing countries from the Invoice table.
+SELECT 
+DISTINCT(BillingCountry)
+FROM invoices
+GROUP BY BillingCountry;
+
+-- Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+SELECT 
+e.FirstName,
+e.LastName,
+i.InvoiceId,
+e.Title
+FROM employees e
+JOIN customers c
+ON e.EmployeeId = c.SupportRepId
+JOIN invoices i
+ON c.CustomerId = i.CustomerId
+WHERE e.Title = 'Sales Support Agent';
+
+
+-- Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+SELECT 
+SUM(i.Total) AS Invoice_Total,
+c.FirstName AS CustomerFirstName,
+c.LastName AS CustomerLastName,
+i.BillingCountry,
+e.FirstName AS EmployeeFirstName,
+e.LastName AS EmployeeLastName
+FROM employees e
+JOIN customers c
+ON e.EmployeeID = C.SupportRepId
+JOIN invoices i 
+ON c.CustomerId = i.CustomerId
+WHERE e.Title = 'Sales Support Agent'
+AND e.FirstName IN ('Jane', 'Margaret', 'Steve')
+GROUP BY c.FirstName, c.LastName, i.BillingCountry, e.FirstName, e.LastName, c.CustomerId;
+
+-- How many Invoices were there in 2009?
+SELECT 
+COUNT(InvoiceId) AS Total_Invoices
+FROM invoices
+WHERE InvoiceDate LIKE '2009-%';
+
+-- What are the total sales for 2009?
+SELECT SUM(Total) AS Total_Sales
+FROM invoices
+WHERE InvoiceDate LIKE '2009-%';
+
+-- Write a query that includes the purchased track name with each invoice line ID.
+SELECT
+t.Name AS Track_Name,
+it.InvoiceLineId
+FROM tracks t
+JOIN invoice_items it
+ON t.TrackId = it.TrackId
+ORDER BY it.InvoiceLineId;
+
+-- Write a query that includes the purchased track name AND artist name with each invoice line ID.
+SELECT 
+it.InvoiceLineId,
+t.Name AS Track_Name,
+t.Composer AS Artist_Names
+FROM invoice_items it
+JOIN tracks t 
+ON it.TrackId = t.TrackId
+ORDER BY it.InvoiceLineId;
