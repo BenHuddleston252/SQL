@@ -59,7 +59,7 @@ VALUES
 
     # The following SQL queries were written to answer specific questions about the content on Netflix:
 
- -- Here is a query showcasing the use of a LEFT JOIN to find the director for each movie and TV show.
+ -- This query showcases the use of a LEFT JOIN to find the director for each movie and TV show.
 SELECT 
 n.title,
 n.type,
@@ -70,30 +70,30 @@ ON n.show_id = p.show_id
 WHERE p.director IS NOT NULL
 ORDER BY n.title;
 
--- Here is a query that shows how many movie titles are in the database.
+-- This query shows how many movie titles are in the database.
 SELECT 
 COUNT(*) AS movies 
 FROM netflix_titles_info
 WHERE type = 'Movie';
 
-  -- Here is a query that shows when the most recent batch of TV shows and/or movies were added to the database.
+  -- This query shows when the most recent batch of TV shows and/or movies were added to the database.
 SELECT 
 MAX(date_added) AS most_recent
 FROM netflix_titles_info;
 
- -- Here is a query that lists all the movies and TV shows in alphabetical order.
+ -- This query lists all the movies and TV shows in alphabetical order.
 SELECT
 title
 FROM netflix_titles_info
 ORDER BY title;
 
- -- Here is a query showing who the director of the movie "The Starling" is.
+ -- This query shows who the director of the movie "The Starling" is.
 SELECT
 director
 FROM netflix_titles_info 
 WHERE title = 'The Starling';
 
- -- Here is a query showing the oldest movie in the database and the year it was made.
+ -- This query shows the oldest movie in the database and the year it was made.
 SELECT 
 title, 
 release_year
