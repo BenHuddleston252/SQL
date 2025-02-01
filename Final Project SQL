@@ -1,3 +1,5 @@
+#Here, I am using SQL to query a database consisting of 11 tables in order to generate statistics on customer, employee, and invoice data for a company in the music industry.
+
 -- This query returns customers who are not from the US, displaying their full name, customer ID, and resident country.
 SELECT 
 FirstName,
