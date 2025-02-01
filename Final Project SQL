@@ -1,4 +1,4 @@
-#This query returns customers who are not from the US, displaying their full name, customer ID, and resident country.
+-- This query returns customers who are not from the US, displaying their full name, customer ID, and resident country.
 SELECT 
 FirstName,
 LastName,
