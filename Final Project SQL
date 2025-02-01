@@ -1,4 +1,4 @@
---Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
+#This query returns customers who are not from the US, displaying their full name, customer ID, and resident country.
 SELECT 
 FirstName,
 LastName,
@@ -7,7 +7,7 @@ Country
 FROM customers
 WHERE Country <> 'United States';
 
--- Show only the Customers from Brazil.
+-- This query returns only customers from Brazil, displaying their full name, customer ID, and resident country.
 SELECT 
 FirstName,
 LastName,
@@ -16,7 +16,7 @@ Country
 FROM customers
 WHERE Country = 'Brazil';
 
--- Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+-- This query finds invoices for customers from Brazil, showing the customer's full name, invoice ID, invoice date, and billing country.
 SELECT 
 cus.FirstName, 
 cus.LastName, 
@@ -28,7 +28,7 @@ JOIN customers cus
 ON inv.CustomerId = cus.CustomerId
 WHERE BillingCountry = 'Brazil';
 
--- Show the Employees who are Sales Agents.
+-- This query retrieves employees who are Sales Support Agents.
 SELECT 
 FirstName,
 LastName,
@@ -36,13 +36,13 @@ Title
 FROM employees
 WHERE Title = 'Sales Support Agent';
 
--- Find a unique/distinct list of billing countries from the Invoice table.
+-- This query returns a distinct list of billing countries from the invoice table.
 SELECT 
 DISTINCT(BillingCountry)
 FROM invoices
 GROUP BY BillingCountry;
 
--- Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+-- This query displays the invoices associated with each sales agent.
 SELECT 
 e.FirstName,
 e.LastName,
@@ -56,7 +56,7 @@ ON c.CustomerId = i.CustomerId
 WHERE e.Title = 'Sales Support Agent';
 
 
--- Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+-- This query shows the invoice total, customer name, country, and sales agent name for all invoices and customers.8
 SELECT 
 SUM(i.Total) AS Invoice_Total,
 c.FirstName AS CustomerFirstName,
@@ -73,18 +73,18 @@ WHERE e.Title = 'Sales Support Agent'
 AND e.FirstName IN ('Jane', 'Margaret', 'Steve')
 GROUP BY c.FirstName, c.LastName, i.BillingCountry, e.FirstName, e.LastName, c.CustomerId;
 
--- How many Invoices were there in 2009?
+-- This query returns the number of invoices from 2009.
 SELECT 
 COUNT(InvoiceId) AS Total_Invoices
 FROM invoices
 WHERE InvoiceDate LIKE '2009-%';
 
--- What are the total sales for 2009?
+-- This query returns the total sales for 2009.
 SELECT SUM(Total) AS Total_Sales
 FROM invoices
 WHERE InvoiceDate LIKE '2009-%';
 
--- Write a query that includes the purchased track name with each invoice line ID.
+-- This query includes the purchased track name for each invoice line ID.
 SELECT
 t.Name AS Track_Name,
 it.InvoiceLineId
@@ -93,7 +93,7 @@ JOIN invoice_items it
 ON t.TrackId = it.TrackId
 ORDER BY it.InvoiceLineId;
 
--- Write a query that includes the purchased track name AND artist name with each invoice line ID.
+-- This query includes the purchased track name and artist name for each invoice line ID.
 SELECT 
 it.InvoiceLineId,
 t.Name AS Track_Name,
@@ -102,3 +102,80 @@ FROM invoice_items it
 JOIN tracks t 
 ON it.TrackId = t.TrackId
 ORDER BY it.InvoiceLineId;
+
+-- This query displays all the tracks, including the album name, media type, and genre.
+SELECT 
+t.Name AS Track_Name,
+a.Title AS Album_Title,
+m.Name AS Media_Type,
+g.Name AS Genre_Type
+FROM tracks AS t
+JOIN albums AS a
+ON t.AlbumId = a.AlbumId
+JOIN media_types AS m
+ON t.MediaTypeId = m.MediaTypeId
+JOIN genres AS g
+ON t.GenreId = g.GenreId;
+
+-- This query shows the total sales made by each sales agent.
+SELECT 
+e.FirstName,
+e.LastName,
+SUM(i.Total) AS Sales_Total
+FROM employees AS e
+JOIN customers AS c
+ON e.EmployeeId = c.SupportRepId
+JOIN invoices AS i
+ON c.CustomerId = i.CustomerId
+WHERE e.Title = 'Sales Support Agent'
+GROUP BY e.FirstName, e.LastName;
+
+-- This query identifies the sales agent who made the most dollars in sales in 2009.
+SELECT 
+e.FirstName,
+e.LastName,
+SUM(i.Total) AS Sales_Total
+FROM employees AS e
+JOIN customers AS c
+ON e.EmployeeId = c.SupportRepId
+JOIN invoices i
+ON c.CustomerId = i.CustomerId
+WHERE e.Title = 'Sales Support Agent'
+AND i.InvoiceDate LIKE '2009%'
+GROUP BY e.FirstName, e.LastName
+ORDER BY SUM(i.Total) DESC
+LIMIT 1;
+
+-- This query identifies the billing country with the most invoices.
+SELECT 
+BillingCountry,
+COUNT(InvoiceId) AS Total_Invoices
+FROM invoices
+GROUP BY BillingCountry
+ORDER BY Total_Invoices DESC
+LIMIT 1;
+
+-- This query shows the total sales for each album.
+SELECT 
+a.Title AS Album_Title,
+ROUND(SUM(i.Total),1) AS Album_Sales
+FROM invoices AS i
+JOIN invoice_items AS it
+ON i.InvoiceId = it.InvoiceId
+JOIN tracks t 
+ON it.TrackId = t.TrackId
+JOIN albums AS a
+ON t.AlbumId = a.AlbumId
+GROUP BY a.Title
+ORDER BY Album_Sales DESC;
+
+-- This query orders media type usage from least to greatest.
+SELECT 
+m.Name AS Media_Type,
+COUNT(t.MediaTypeId) AS Usage_Count
+FROM tracks AS t
+JOIN media_types AS m
+ON t.MediaTypeId = m.MediaTypeId
+GROUP BY m.Name, m.MediaTypeId
+ORDER BY Usage_Count ASC;
+
