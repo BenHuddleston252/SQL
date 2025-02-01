@@ -31,14 +31,14 @@ VALUES
 
 #For this project, I used SQL to query the Superstore database to retrieve information about items sold at the store and their prices. 
 
---Here is a query that Sorts Items By Price In Ascending Order
+-- This query sorts items by price in ascending order.
 SELECT 
 item_name, 
 price
 FROM superstore
 ORDER BY price;
 ​
---Cheapest Item
+-- This query finds the cheapest item.
 SELECT 
 item_name, 
 price
@@ -47,14 +47,14 @@ ORDER BY price ASC
 LIMIT 1;
 ​
 
---Average Price of Kitchen Supplies
+-- This query finds the average price of kitchen supplies.
 SELECT 
 AVG(price) AS avg_kitchen_supplies
 FROM superstore
 WHERE category = 'Kitchen_Supplies';
 
 
---Which Items Have the Highest Stock Quantity From Highest to Lowest?
+--This query identifies which items have the highest stock quantity, ordered from highest to lowest.
 SELECT 
 item_name, 
 stock_quantity
