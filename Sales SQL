@@ -1,7 +1,7 @@
 #In this SQL, I'm querying a database with multiple tables to quantify customer and order data statistics.
 
 
--- How many orders did we get in January?
+-- This query shows how many orders we received in January.
 SELECT 
 COUNT(DISTINCT orderID)
 FROM JanSales
@@ -9,7 +9,7 @@ WHERE LENGTH(orderID) = 6
 AND orderID <> 'Order ID';
 
 
--- How many of those January orders were for an iPhone?
+-- This query shows how many of those January orders were for an iPhone.
 SELECT 
 COUNT(DISTINCT orderID) AS iphone_orders
 FROM JanSales
@@ -17,7 +17,7 @@ WHERE Product = 'iPhone'
 AND LENGTH(orderID) = 6
 AND Product <> 'Product';
 
--- Select the customer account numbers for all the orders placed in February.
+-- This query selects all customer account numbers for the orders placed in February.
 SELECT 
 c.acctnum
 FROM customers AS c
@@ -26,7 +26,7 @@ ON c.order_ID = fs.orderID
 WHERE fs.orderID <> 'Order ID'
 AND LENGTH(fs.orderID) = 6;
 
--- Which product was the cheapest sold in January, and what was the price?
+-- This query shows which product was the cheapest sold in January and its price.
 SELECT 
 product,
 price
@@ -34,7 +34,7 @@ FROM JanSales
 ORDER BY price ASC
 LIMIT 1;
 
--- What is the total revenue for each product sold in January? 
+-- This query shows the total revenue for each product sold in January.
 SELECT 
 product,
 ROUND(SUM(quantity*price)) AS revenue
@@ -43,7 +43,7 @@ WHERE product <> 'Product'
 GROUP BY product
 ORDER BY revenue DESC;
 
--- Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+-- This query shows which products were sold in February at 548 Lincoln St, Seattle, WA 98101, the quantity sold of each, and the total revenue.
 SELECT 
 product,
 SUM(quantity) AS total_sold,
@@ -52,7 +52,7 @@ FROM FebSales
 WHERE location = '548 Lincoln St, Seattle, WA 98101'
 GROUP BY product;
 
--- How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+-- This query shows how many customers ordered more than two products at a time in February and the average amount spent by those customers.
 SELECT 
 COUNT(DISTINCT c.acctnum) AS total_customers,
 ROUND(SUM(quantity*price)/COUNT(DISTINCT c.acctnum)) avg_spent
@@ -61,7 +61,7 @@ LEFT JOIN customers c
 ON fs.orderID=c.order_id
 WHERE quantity > 2;
 
--- List all the products sold in Los Angeles in February, and include how many were sold for each product.
+-- This query lists all the products sold in Los Angeles in February and includes the quantity sold for each product.
 SELECT
 product,
 SUM(quantity) AS total_sold,
@@ -70,7 +70,7 @@ FROM FebSales
 WHERE location LIKE '%Los Angeles%'
 GROUP BY product;
 
--- Which locations in New York received at least 3 orders in January, and how many orders did they each receive?
+-- This query shows which locations in New York received at least three orders in January and how many orders each location received.
 SELECT 
 location, 
 COUNT(orderID) AS order_count
@@ -81,7 +81,7 @@ AND orderID <> 'Order ID'
 GROUP BY location
 HAVING COUNT(orderID) >= 3;
 
--- How many of each type of headphones were sold in February?
+-- This query shows how many of each type of headphones were sold in February.
 SELECT 
 product, 
 SUM(quantity) AS total_quantity
@@ -89,7 +89,7 @@ FROM FebSales
 WHERE product LIKE '%headphone%'
 GROUP BY product;
 
--- What was the average amount spent per account in February?
+-- This query shows the average amount spent per account in February.
 SELECT
 ROUND(SUM(quantity*price)/COUNT(DISTINCT c.acctnum)) AS avg_spent
 FROM FebSales fs
@@ -98,7 +98,7 @@ ON fs.orderID = c.order_id
 WHERE order_id <> 'Order ID'
 AND LENGTH(order_id) = 6;
 
--- What was the average quantity of products purchased per account in February? 
+-- This query shows the average quantity of products purchased per account in February.
 SELECT 
 ROUND(SUM(quantity)/COUNT(DISTINCT c.acctnum),2) AS avg_quantity
 FROM FebSales fs
@@ -107,7 +107,7 @@ ON fs.orderID = c.order_id
 WHERE orderID <> 'Order ID'
 AND LENGTH(orderID) = 6;
 
--- Which product brought in the most revenue in January and how much was it?
+-- This query shows which product generated the most revenue in January and its total revenue.
 SELECT 
 product, 
 SUM(quantity*price) AS revenue
