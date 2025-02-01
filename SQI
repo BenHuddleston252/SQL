@@ -29,9 +29,9 @@ VALUES
 
 
 
-#For this project, I used SQL to query the Superstore database to get information about items sold at the store and their prices. 
+#For this project, I used SQL to query the Superstore database to retrieve information about items sold at the store and their prices. 
 
---Sort Items By Price In Ascending Order
+--Here is a query that Sorts Items By Price In Ascending Order
 SELECT 
 item_name, 
 price
